@@ -19,8 +19,8 @@ module.exports = class Email{
           return nodemailer.createTransport({
             service: "MailGun",
             auth: {
-              user: 'postmaster@sandbox80845c8f4de74886bcd9d84a82534a5c.mailgun.org',
-              pass: '4f53b8353c2e42b8eb0259816a4f77d9-bdb2c8b4-c5bdc36f',
+              user: process.env.USER,
+              pass: process.env.PASS,
             },
             tls: {
               rejectUnauthorized: false
@@ -32,8 +32,8 @@ module.exports = class Email{
             host: 'smtp.mailgun.org',
             port: 587,
             auth: {
-              user: 'postmaster@sandbox80845c8f4de74886bcd9d84a82534a5c.mailgun.org',
-              pass: '4f53b8353c2e42b8eb0259816a4f77d9-bdb2c8b4-c5bdc36f',
+              user: process.env.USER,
+              pass: process.env.PASS,
             },
           });
     }
