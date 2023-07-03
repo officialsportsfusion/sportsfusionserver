@@ -1,16 +1,10 @@
-const express = require("express");
-const passport = require('../../../middleware/passport')
-const {signUp, signIn, forgotPassword} = require('../../../controller/userController')
-
+const express = require('express')
+const upload = require('../../../utilis/upload')
 const router = express.Router()
+const user = require('../../../controller/userController')
 
-
-router.post('/', signUp)
-router.post('/signin', signIn)
-router.post('/forgotpassword', forgotPassword)
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }))
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-});
+router.post('/update/username/:userId',user.updateUser) 
+router.post('/update/email/:userId', user.editPassword)
 
 
 
