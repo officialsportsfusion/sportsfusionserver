@@ -4,7 +4,7 @@ const router = express.Router()
 const user = require('../../../controller/userController')
 
 router.post('/update/username/:userId',user.updateUser) 
-router.post('/update/email/:userId', user.editPassword)
+router.post('/update/password/:userId', user.editPassword)
 
 
 

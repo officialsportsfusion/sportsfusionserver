@@ -38,7 +38,10 @@ const freeTipSchema = new mongoose.Schema({
     default:Date.now(),
     required:true
   },
-  
+  time:{
+    type: String,
+    required:true
+  },
   league:{
     type:String,
     required:true

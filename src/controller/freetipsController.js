@@ -3,9 +3,10 @@ const {freeTips} = require('../model/schema')
 
 exports.addfreetips = async (req, res)=>{
 try{
-const {date, league, match, odds, tipster, tip, scores} = req.body
+const {date, league, match, odds, tipster, tip, time, scores} = req.body
 const newFreeTip = new freeTips({
         date: date, 
+        time:time,
         league :league,
         match :match,
         odds :odds,
@@ -78,6 +79,7 @@ exports.deletefreetips = async (req, res) => {
     // update the database with new data
     let updatedTip = await freeTips.findByIdAndUpdate(tipId,{...req.body},{new :
       true}).exec();
+
       res.send(updatedTip);
     }catch(err){
       console.log(err.message)
