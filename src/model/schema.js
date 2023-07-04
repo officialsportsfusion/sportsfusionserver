@@ -34,8 +34,7 @@ const userSchema = new mongoose.Schema({
 
 const freeTipSchema = new mongoose.Schema({
   date:{
-    type : Date, 
-    default:Date.now(),
+    type : String, 
     required:true
   },
   time:{
