@@ -2,12 +2,13 @@ const {premiumTips} = require('../model/schema')
 
 exports.addPremiumTips = async (req, res)=>{
     try{
-    const {date, event, betting_type, odds, tip, tipster} = req.body
+    const {date, event, league, odds, tip, time, tipster} = req.body
     const newPremiumTip = new premiumTips({
-            date: date, 
+            date: date,
+            time:time, 
             event :event,
             tip:tip,
-            betting_type :betting_type,
+            league:league,
             odds :odds,
             tipster :tipster,
         })

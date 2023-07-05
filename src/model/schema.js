@@ -81,22 +81,31 @@ const freeTipSchema = new mongoose.Schema({
 
 const premiumTipsSchema = new mongoose.Schema({
   date:{
-    type : Date, 
-    default:Date.now(),
+    type : String, 
+    required:true
+  },
+
+  time:{
+    type:String,
     required:true
   },
   
-  event:{
+  match:{
     type:String,
     required:true
   },
 
-  betting_type:{
+  league:{
     type:String,
     require:true
   },
 
   odds:{
+    type:String,
+    require:true
+  },
+
+  tip:{
     type:String,
     require:true
   },
