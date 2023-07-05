@@ -2,11 +2,11 @@ const {premiumTips} = require('../model/schema')
 
 exports.addPremiumTips = async (req, res)=>{
     try{
-    const {date, event, league, odds, tip, time, tipster} = req.body
+    const {date, match, league, odds, tip, time, tipster} = req.body
     const newPremiumTip = new premiumTips({
             date: date,
             time:time, 
-            event :event,
+            match:match,
             tip:tip,
             league:league,
             odds :odds,
@@ -17,7 +17,7 @@ exports.addPremiumTips = async (req, res)=>{
        .then(()=>{res
         return res
            .status(201)
-           .json({message:'New Free Tip Added', tip:newPremiumTip })})
+           .json({message:'New Premium Tip Added', tip:newPremiumTip })})
     
     
     }catch(err){
