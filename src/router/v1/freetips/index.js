@@ -6,5 +6,6 @@ router.post('/freetip', freeTips.addfreetips)
 router.get('/freetip', freeTips.getallTips)
 router.put('/freetip/:tipId', freeTips.updatefreeTip)
 router.delete('/freetip/:tipId', freeTips.deletefreetips)
+router.get('/freetip/:tipId', freeTips.getTip)
 
 module.exports = router

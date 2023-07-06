@@ -85,3 +85,19 @@ exports.deletefreetips = async (req, res) => {
       console.log(err.message)
     }
   }
+
+
+  exports.getTip = async(req, res) =>{
+    try{
+    const tipId = req.params.tipId
+    // const {scores} = req.body
+    const tip = await freeTips.findById(tipId)
+    if(!tip) return res.status(400).send({
+      message: 'Invalid Id'
+    })
+  
+      res.send(tip);
+    }catch(err){
+      console.log(err.message)
+    }
+  }
