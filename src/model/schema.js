@@ -121,9 +121,25 @@ const premiumTipsSchema = new mongoose.Schema({
 }
 )
 
+const adminSchema = new mongoose.Schema({
+  email:{
+    type:String,
+    required:true
+  },
 
+  password:{
+    type:String,
+    required:true
+  }
+},
+{
+  timestamps:true
+}
+)
+
+const admin = mongoose.model('Admin', adminSchema)
 const user = mongoose.model('User', userSchema);
 const freeTips = mongoose.model('fixedTip', freeTipSchema)
 const premiumTips = mongoose.model('premiumTip', premiumTipsSchema)
 
-module.exports = {user, freeTips, premiumTips}
+module.exports = {user, freeTips, premiumTips, admin}
