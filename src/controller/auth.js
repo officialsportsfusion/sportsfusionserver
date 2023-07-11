@@ -260,7 +260,11 @@ exports.signin = async (req, res) =>{
 
   res.status(200).json({
   status:"true",
-  token :token
+  token :token,
+  email:User.email,
+  username:User.username,
+  id:User._id,
+  avatar:User.avatar
     })
   }
   catch(err){
