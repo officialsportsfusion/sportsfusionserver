@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
   verification:{
     type:Boolean,
     default:false
+  },
+
+  role:{
+    type:String,
+    default:''
   }
 });
 
@@ -42,7 +47,7 @@ const freeTipSchema = new mongoose.Schema({
   },
   league:{
     type:String,
-    required:true
+    required:true,
   },
 
   match:{
@@ -96,7 +101,7 @@ const premiumTipsSchema = new mongoose.Schema({
 
   league:{
     type:String,
-    require:true
+    require:true,
   },
 
   odds:{

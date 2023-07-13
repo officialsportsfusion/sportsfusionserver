@@ -1,31 +1,29 @@
 const {freeTips} = require('../model/schema')
 
 
-exports.addfreetips = async (req, res)=>{
-try{
-const {date, league, match, odds, tipster, tip, time, scores} = req.body
-const newFreeTip = new freeTips({
-        date: date, 
-        time:time,
-        league :league,
-        match :match,
-        odds :odds,
-        tip:tip,
-        tipster :tipster,
-        scores :scores
-    })
+exports.addfreetips = async (req, res) => {
+  try {
+    const { date, league, match, odds, tipster, tip, time, scores } = req.body;
+    const formatTip = tip.charAt(0).toUpperCase() + tip.slice(1).toLowerCase();
+    const newFreeTip = new freeTips({
+      date: date,
+      time: time,
+      league: league,
+      match: match,
+      odds: odds,
+      tip: formatTip,
+      tipster: tipster,
+      scores: scores,
+    });
 
-    await newFreeTip.save()
-   .then(()=>{res
-    return res
-       .status(201)
-       .json({message:'New Free Tip Added', tip:newFreeTip })})
+    await newFreeTip.save();
+    res.status(201).json({ message: 'New Free Tip Added', tip: newFreeTip });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
-
-}catch(err){
-    console.log(`${err.message}`)
-}
-}
 
 
 exports.getallTips = async(req, res)=>{

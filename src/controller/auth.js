@@ -247,10 +247,10 @@ exports.signin = async (req, res) =>{
       message:'invalid password'
     })
 
-   if(User.verification !== true) return res.status(400).send({
-    status:'false',
-    message:' Please verify your account first '
-   })
+  //  if(User.verification !== true) return res.status(400).send({
+  //   status:'false',
+  //   message:' Please verify your account first '
+  //  })
    //if verification is false then send a mail to the user with link for verfication of
    //account and after that he can login in his acccount
    
