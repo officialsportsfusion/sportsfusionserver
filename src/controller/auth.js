@@ -33,40 +33,39 @@ exports.signup = async (req, res) =>{
 
   const hashedpassword = await bcrypt.hash(password, 12)
 
-  const secret = speakeasy.generateSecret();
+  // const secret = speakeasy.generateSecret();
 
-  const otp = speakeasy.totp({
-    secret: secret.base32,
-    encoding: 'base32',
-    window: 10 * 60,
-  });
+  // const otp = speakeasy.totp({
+  //   secret: secret.base32,
+  //   encoding: 'base32',
+  //   window: 10 * 60,
+  // });
 
   const newUser = new user({
     email:email,
     password:hashedpassword,
     username:username,
-    otp:otp
   })
 
 
   
 
-  const templatePath = path.join(__dirname, '../utilis/otptemplate.pug');
-  const compiledTemplate = pug.compileFile(templatePath);
-  const html = compiledTemplate({ otp, email });
+  // const templatePath = path.join(__dirname, '../utilis/otptemplate.pug');
+  // const compiledTemplate = pug.compileFile(templatePath);
+  // const html = compiledTemplate({ otp, email });
 
-  transporter.sendMail({
-    from: 'officialtony@gmail.com',
-    to: newUser.email,
-    subject: 'OTP Verification',
-    html: html
-  }, (err, info) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('Email sent:', info.status);
-    }
-  });
+  // transporter.sendMail({
+  //   from: 'officialtony@gmail.com',
+  //   to: newUser.email,
+  //   subject: 'OTP Verification',
+  //   html: html
+  // }, (err, info) => {
+  //   if (err) {
+  //     console.error(err);
+  //   } else {
+  //     console.log('Email sent:', info.status);
+  //   }
+  // });
 
   await newUser.save()
   delete newUser._doc.password
