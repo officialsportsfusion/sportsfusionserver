@@ -52,7 +52,7 @@ exports.editPassword = async (req, res) =>{
 
 exports.getSingleUser = async (req, res) =>{
   try{
-  const {userId} = req.params.userId
+  const userId = req.params.userId
   const User = await user.findById(userId)
   if(!User) return res.status(500).json({
     message: 'No such user found!'
