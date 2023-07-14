@@ -53,14 +53,14 @@ exports.editPassword = async (req, res) =>{
 exports.getSingleUser = async (req, res) =>{
   try{
   const {userId} = req.params.userId
-  const user = await user.findById(userId)
-  if(!user) return res.status(500).json({
+  const User = await user.findById(userId)
+  if(!User) return res.status(500).json({
     message: 'No such user found!'
   })
-  delete user.password;
+  delete User.password;
   res.status(200).send({
     success:true,
-    userData:user
+    User:User
   })
 
 
