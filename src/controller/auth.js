@@ -23,7 +23,7 @@ exports.signup = async (req, res) =>{
   const {email, password, username} = req.body
   const verifyEmail = await user.findOne({email})
   if(verifyEmail) return res.status(400).send({
-    message:'user with already exist'
+    message:'user already exist'
   })
 
   const verifyusername = await user.findOne({username})
