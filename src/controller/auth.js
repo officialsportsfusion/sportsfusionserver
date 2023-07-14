@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport(
 
 exports.signup = async (req, res) =>{
   try{
-  const {email, password, username} = req.body
+  const {email, password, username,tel,country} = req.body
   const verifyEmail = await user.findOne({email})
   if(verifyEmail) return res.status(400).send({
     message:'user already exist'
@@ -45,6 +45,8 @@ exports.signup = async (req, res) =>{
     email:email,
     password:hashedpassword,
     username:username,
+    tel : tel,
+    country:country
   })
 
 
