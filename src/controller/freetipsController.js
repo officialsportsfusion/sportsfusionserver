@@ -30,7 +30,6 @@ exports.getallTips = async(req, res)=>{
     try{
 
         const allfreetips= await freeTips.find({})
-        
         if(!allfreetips ||
             allfreetips === undefined ){
             throw Error(`No Tips Found`)
