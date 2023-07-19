@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    default:'https://previews.123rf.com/images/ismailgsv/ismailgsv2003/ismailgsv200300046/142141036-human-icon-design-inspiration-vector-template-for-interface-and-any-purpose.jpg'
   },
   verification:{
     type:Boolean,
