@@ -12,6 +12,7 @@ router.use("/v1", require('./v1/auth'))
 router.use("/v1", require('./v1/freetips'));
 router.use("/v1", require('./v1/premiumtips'));
 router.use("/v1", require('./v1/adminAuth'));
+router.use("/v1", require('./v1/seriestips'));
 
 
 

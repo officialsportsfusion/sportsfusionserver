@@ -136,6 +136,48 @@ const premiumTipsSchema = new mongoose.Schema({
 }
 )
 
+const seriesTipsSchema = new mongoose.Schema({
+  series:{
+    type : String, 
+    required:true
+  },
+  date:{
+    type : String, 
+    required:true
+  },
+
+  time:{
+    type:String,
+    required:true
+  },
+  
+  match:{
+    type:String,
+    required:true
+  },
+
+  league:{
+    type:String,
+    require:true,
+  },
+
+  odds:{
+    type:String,
+    require:true
+  },
+
+  tip:{
+    type:String,
+    require:true
+  },
+
+
+},
+{
+  timestamps:true
+}
+)
+
 const adminSchema = new mongoose.Schema({
   email:{
     type:String,
@@ -156,5 +198,6 @@ const admin = mongoose.model('Admin', adminSchema)
 const user = mongoose.model('User', userSchema);
 const freeTips = mongoose.model('fixedTip', freeTipSchema)
 const premiumTips = mongoose.model('premiumTip', premiumTipsSchema)
+const seriesTips = mongoose.model('seriesTip', seriesTipsSchema)
 
-module.exports = {user, freeTips, premiumTips, admin}
+module.exports = {user, freeTips, premiumTips, seriesTips, admin}
