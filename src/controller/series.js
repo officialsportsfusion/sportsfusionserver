@@ -3,7 +3,7 @@ const {seriesTips} = require('../model/schema')
 
 exports.addseriestips = async (req, res) => {
   try {
-    const { date, league, match, odds, tip, time, scores } = req.body;
+    const { date, league, match, odds, tip, time, series, scores } = req.body;
     const formatTip = tip.charAt(0).toUpperCase() + tip.slice(1).toLowerCase();
     const newseriesTip = new seriesTips({
       date: date,
@@ -13,6 +13,7 @@ exports.addseriestips = async (req, res) => {
       odds: odds,
       tip: formatTip,
       scores: scores,
+      series:series
     });
 
     await newseriesTip.save();
