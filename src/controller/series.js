@@ -3,7 +3,7 @@ const {seriesTips} = require('../model/schema')
 
 exports.addseriestips = async (req, res) => {
   try {
-    const { date, league, match, odds, tip, time, series, scores } = req.body;
+    const { date, league, match, odds, tip, time, series, scores, stake } = req.body;
     const formatTip = tip.charAt(0).toUpperCase() + tip.slice(1).toLowerCase();
     const newseriesTip = new seriesTips({
       date: date,
@@ -13,7 +13,8 @@ exports.addseriestips = async (req, res) => {
       odds: odds,
       tip: formatTip,
       scores: scores,
-      series:series
+      series:series,
+      stake:stake
     });
 
     await newseriesTip.save();
@@ -49,6 +50,7 @@ exports.getallTips = async(req, res)=>{
 exports.deleteseriestips = async (req, res) => {
     try {
       const tipId = req.params.tipId;
+      console.log('delete')
       const deletedTip = await seriesTips.findByIdAndDelete(tipId);
   
       if (!deletedTip) 

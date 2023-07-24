@@ -145,10 +145,18 @@ const seriesTipsSchema = new mongoose.Schema({
     type : String, 
     required:true
   },
-
+  stake:{
+    type : String, 
+    required:true
+  },
   time:{
     type:String,
     required:true
+  },
+
+  scores:{
+    type:String,
+    // required:true
   },
   
   match:{
