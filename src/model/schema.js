@@ -159,7 +159,7 @@ const seriesTipsSchema = new mongoose.Schema({
     // required:true
   },
 
-  won:{
+  outcome:{
     type:Boolean,
     // default:false,
 
