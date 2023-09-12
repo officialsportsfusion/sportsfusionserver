@@ -208,10 +208,43 @@ const adminSchema = new mongoose.Schema({
 }
 )
 
+
+const AccaSchema = new mongoose.Schema({
+  date:{
+    type : String, 
+    required:true
+  },
+
+  time:{
+    type:String,
+    required:true
+  },
+
+  category:{
+    type:String,
+    required:true
+  },
+
+  signupLink:{
+    type:String,
+    required:true
+  },
+
+  gameLink:{
+    type:String,
+    required:true
+  },
+
+  status:{
+    type:Boolean
+  }
+})
+
 const admin = mongoose.model('Admin', adminSchema)
 const user = mongoose.model('User', userSchema);
 const freeTips = mongoose.model('fixedTip', freeTipSchema)
 const premiumTips = mongoose.model('premiumTip', premiumTipsSchema)
 const seriesTips = mongoose.model('seriesTip', seriesTipsSchema)
+const AccaTips = mongoose.model('Acca', AccaSchema)
 
-module.exports = {user, freeTips, premiumTips, seriesTips, admin}
+module.exports = {user, freeTips, premiumTips, seriesTips, AccaTips, admin}

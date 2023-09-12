@@ -13,6 +13,7 @@ router.use("/v1", require('./v1/freetips'));
 router.use("/v1", require('./v1/premiumtips'));
 router.use("/v1", require('./v1/adminAuth'));
 router.use("/v1", require('./v1/seriestips'));
+router.use("/v1", require('./v1/accatips'));
 
 
 

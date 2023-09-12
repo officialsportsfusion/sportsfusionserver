@@ -1,6 +1,7 @@
 const {user} = require('../model/schema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const EmailService = require("../services/EmailService");
 const cloudinary = require('../utilis/cloudinary')
 const path = require('path');
 const speakeasy = require('speakeasy');
@@ -33,41 +34,37 @@ exports.signup = async (req, res) =>{
 
   const hashedpassword = await bcrypt.hash(password, 12)
 
-  // const secret = speakeasy.generateSecret();
-
-  // const otp = speakeasy.totp({
-  //   secret: secret.base32,
-  //   encoding: 'base32',
-  //   window: 10 * 60,
-  // });
+  const otp = Math.floor(1000 + Math.random() * 9000);
 
   const newUser = new user({
     email:email,
     password:hashedpassword,
     username:username,
     tel : tel,
-    country:country
+    country:country,
+    otp:otp
   })
 
+ const  Subject = " 🚀 Your Exclusive One-Time Password (OTP) is Here! 🚀"
 
-  
+const emailContent = `
+Welcome to the exciting world of SportsFusion! 🎉 We're thrilled to have you onboard.
+         To kickstart your journey, here's your exclusive One-Time Password (OTP): ${otp}
+         This OTP is your golden ticket to unlock incredible opportunities and experiences with us. It's valid for the next 24 hours, so don't wait—let's get started!
+         
+         `;
 
-  // const templatePath = path.join(__dirname, '../utilis/otptemplate.pug');
-  // const compiledTemplate = pug.compileFile(templatePath);
-  // const html = compiledTemplate({ otp, email });
+         let emailotp = 'wer'
 
-  // transporter.sendMail({
-  //   from: 'officialtony@gmail.com',
-  //   to: newUser.email,
-  //   subject: 'OTP Verification',
-  //   html: html
-  // }, (err, info) => {
-  //   if (err) {
-  //     console.error(err);
-  //   } else {
-  //     console.log('Email sent:', info.status);
-  //   }
-  // });
+  try {
+    await new EmailService().sendEmail(
+      {
+        email: email.toLowerCase(),
+        subject: Subject,
+        otp:otp
+      });
+  } catch (error) { }
+
 
   await newUser.save()
   delete newUser._doc.password
@@ -81,40 +78,78 @@ exports.signup = async (req, res) =>{
   }
 }
 
+
 exports.confirmOTP = async (req, res) => {
   try {
-    const { otp } = req.body
+    const { otp } = req.body;
     if (!otp) {
       return res.status(400).send({
         message: 'OTP is required'
-      })
+      });
     }
-    const User = await user.findOne({ otp })
-    if (!User)
+
+    const User = await user.findOne({ otp });
+    if (!User) {
       return res.status(400).send({
         message: 'Invalid OTP'
-      })
+      });
+    }
 
-    User.verification = true
-    User.otp = undefined
+    try {
+      const { email, username } = User; // Get user's email and username
+      const subject = "Welcome to SportsFusion"; // Set your email subject
 
+      const elasticEmail = {
+        host: process.env.SMTP_HOST,
+        port: 2525,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      };
 
-    const token = jwt.sign({ _id: User._id }, process.env.SECRET, {
-      expiresIn: '1d'
-    });
+      let transporter = nodemailer.createTransport(elasticEmail);
+      const templatePath = path.join(__dirname, '../utilis/welcomeTemplate.pug');
+      const pugTemplate = pug.compileFile(templatePath);
 
-    await User.save()
+      // Render the template with the provided data
+      const htmlContent = pugTemplate({ email, username });
 
-    res.status(200).send({
-      message: 'OTP verified',
-      email: User.email,
-      id: User._id,
-      token: token
-    });
-  }catch(err){
-    console.log(err.message)
+      let info = await transporter.sendMail({
+        from: "SportsFusion <info@SportsFusion.com>",
+        to: email,
+        subject: subject,
+        text: null,
+        html: htmlContent,
+      });
+
+      
+
+      User.verification = true;
+
+      const token = jwt.sign({ _id: User._id }, process.env.SECRET, {
+        expiresIn: '1d'
+      });
+
+      await User.save();
+
+      res.status(200).send({
+        message: 'OTP verified',
+        email: User.email,
+        id: User._id,
+        token: token
+      });
+
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to send email');
+    }
+
+  } catch (err) {
+    console.log(err.message);
   }
 }
+
 
 exports.resendOtp = async (req, res) => {
   try {
@@ -124,32 +159,62 @@ exports.resendOtp = async (req, res) => {
       return res.status(404).send({ message: 'User not found' });
     }
 
-    const secret = speakeasy.generateSecret();
-    const otp = speakeasy.totp({
-      secret: secret.base32,
-      encoding: 'base32',
-      window: 10 * 60,
-    });
+ 
+    
+  const otp = Math.floor(1000 + Math.random() * 9000);
 
     User.otp = otp
     await User.save()
 
-    const templatePath = path.join(__dirname, '../utilis/otptemplate.pug');
-    const compiledTemplate = pug.compileFile(templatePath);
-    const html = compiledTemplate({ otp });
+    try {
+      const { email, username, otp } = User; // Get user's email and username
+      const subject = "Change Password"; // Set your email subject
 
-    transporter.sendMail({
-      from: 'SportsFusion.io',
-      to: User.email,
-      subject: 'OTP Verification',
-      html: html
-    }, (err, info) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('Email sent:', info.status);
-      }
-    });
+      const elasticEmail = {
+        host: process.env.SMTP_HOST,
+        port: 2525,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      };
+
+      let transporter = nodemailer.createTransport(elasticEmail);
+      const templatePath = path.join(__dirname, '../utilis/forgotPassword.pug');
+      const pugTemplate = pug.compileFile(templatePath);
+
+      // Render the template with the provided data
+      const htmlContent = pugTemplate({ email, username , otp});
+
+      let info = await transporter.sendMail({
+        from: "SportsFusion <info@SportsFusion.com>",
+        to: email,
+        subject: subject,
+        text: null,
+        html: htmlContent,
+      });
+
+      
+
+      User.verification = true;
+
+      const token = jwt.sign({ _id: User._id }, process.env.SECRET, {
+        expiresIn: '1d'
+      });
+
+      await User.save();
+
+      res.status(200).send({
+        message: 'OTP verified',
+        email: User.email,
+        id: User._id,
+        token: token
+      });
+
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to send email');
+    }
 
     res.status(200).send({
       message: 'OTP sent to email',
@@ -173,35 +238,56 @@ exports.forgotPassword = async (req, res) => {
         message: 'User not found'
       })
 
-
-    const secret = speakeasy.generateSecret();
-
-    const otp = speakeasy.totp({
-      secret: secret.base32,
-      encoding: 'base32',
-      window: 10 * 60,
-    });
-
+    const otp = Math.floor(1000 + Math.random() * 9000);
     User.otp = otp
 
-    await User.save()
+   
 
-    const templatePath = path.join(__dirname, '../utilis/otpTemplate.pug');
-    const compiledTemplate = pug.compileFile(templatePath);
-    const html = compiledTemplate({ otp });
+    try {
+      const { email, username, otp } = User; // Get user's email and username
+      const subject = "Change Password"; // Set your email subject
 
-    transporter.sendMail({
-      from: 'SportsFusion.io',
-      to: User.email,
-      subject: 'Reset Password',
-      html: html
-    }, (err, info) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log('Email sent:', info.status);
-      }
-    });
+      const elasticEmail = {
+        host: process.env.SMTP_HOST,
+        port: 2525,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      };
+
+      let transporter = nodemailer.createTransport(elasticEmail);
+      const templatePath = path.join(__dirname, '../utilis/forgotPassword.pug');
+      const pugTemplate = pug.compileFile(templatePath);
+
+      // Render the template with the provided data
+      const htmlContent = pugTemplate({ email, username , otp});
+
+      let info = await transporter.sendMail({
+        from: "SportsFusion <info@SportsFusion.com>",
+        to: email,
+        subject: subject,
+        text: null,
+        html: htmlContent,
+      });
+
+      
+
+    
+
+      await User.save();
+
+      // res.status(200).send({
+      //   message: 'OTP verified',
+      //   email: User.email,
+      //   id: User._id,
+      //   token: token
+      // });
+
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to send email');
+    }
 
     res.status(200).send({
       message: 'OTP Sent'

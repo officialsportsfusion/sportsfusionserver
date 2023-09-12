@@ -6,18 +6,18 @@ const cors = require('cors')
 const connectDB = require('./src/database')
 dotenv.config()
 
-const treblle = require('@treblle/express')
+// const treblle = require('@treblle/express')
 const port = process.env.PORT
 
 const app = express()
 // app.use(cors())
-app.use(
-    treblle({
-      apiKey: process.env.TREBLLE_API_KEY,
-      projectId: process.env.TREBLLE_PROJECT_ID,
-      additionalFieldsToMask: [],
-    })
-  )
+// app.use(
+//     treblle({
+//       apiKey: process.env.TREBLLE_API_KEY,
+//       projectId: process.env.TREBLLE_PROJECT_ID,
+//       additionalFieldsToMask: [],
+//     })
+//   )
 app.use(cors());
 app.use(express.json());
 app.use(router)
