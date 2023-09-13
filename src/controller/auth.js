@@ -289,6 +289,7 @@ exports.forgotPassword = async (req, res) => {
     //   throw new Error('Failed to send email');
     // }
 
+    await User.save()
     res.status(200).send({
       message: 'OTP Sent'
     })
