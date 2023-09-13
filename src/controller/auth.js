@@ -328,6 +328,9 @@ exports.signin = async (req, res) =>{
       message:'invalid email'
     })
 
+  if(User.verification === false){
+    return  res.status(503).json({"message":"Please verify your account"})
+  }
     const verifyPassword = await bcrypt.compare(password, User.password)
     if(!verifyPassword) return res.status(400).send({
       status:'false',

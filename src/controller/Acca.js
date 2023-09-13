@@ -9,8 +9,8 @@ exports.addAccatips = async (req, res) => {
       date: date,
       time: time,
       category:category,
-      signuplink : signupLink,
-      gamelink  :   gameLink
+      signupLink:signupLink,
+      gameLink:gameLink
     
     });
 
