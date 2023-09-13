@@ -95,56 +95,56 @@ exports.confirmOTP = async (req, res) => {
       });
     }
 
-    try {
-      const { email, username } = User; // Get user's email and username
-      const subject = "Welcome to SportsFusion"; // Set your email subject
+    // try {
+    //   const { email, username } = User; // Get user's email and username
+    //   const subject = "Welcome to SportsFusion"; // Set your email subject
 
-      const elasticEmail = {
-        host: process.env.SMTP_HOST,
-        port: 2525,
-        auth: {
-          user: process.env.SMTP_USERNAME,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      };
+    //   const elasticEmail = {
+    //     host: process.env.SMTP_HOST,
+    //     port: 2525,
+    //     auth: {
+    //       user: process.env.SMTP_USERNAME,
+    //       pass: process.env.SMTP_PASSWORD,
+    //     },
+    //   };
 
-      let transporter = nodemailer.createTransport(elasticEmail);
-      const templatePath = path.join(__dirname, '../utilis/welcomeTemplate.pug');
-      const pugTemplate = pug.compileFile(templatePath);
+    //   let transporter = nodemailer.createTransport(elasticEmail);
+    //   const templatePath = path.join(__dirname, '../utilis/welcomeTemplate.pug');
+    //   const pugTemplate = pug.compileFile(templatePath);
 
-      // Render the template with the provided data
-      const htmlContent = pugTemplate({ email, username });
+    //   // Render the template with the provided data
+    //   const htmlContent = pugTemplate({ email, username });
 
-      let info = await transporter.sendMail({
-        from: "SportsFusion <info@SportsFusion.com>",
-        to: email,
-        subject: subject,
-        text: null,
-        html: htmlContent,
-      });
+    //   let info = await transporter.sendMail({
+    //     from: "SportsFusion <info@SportsFusion.com>",
+    //     to: email,
+    //     subject: subject,
+    //     text: null,
+    //     html: htmlContent,
+    //   });
 
       
+                                
 
-      User.verification = true;
+    // } catch (error) {
+    //   console.log(error);
+    //   throw new Error('Failed to send email');
+    // }
 
-      const token = jwt.sign({ _id: User._id }, process.env.SECRET, {
-        expiresIn: '1d'
-      });
+    User.verification = true;
 
-      await User.save();
+    const token = jwt.sign({ _id: User._id }, process.env.SECRET, {
+      expiresIn: '1d'
+    });
 
-      res.status(200).send({
-        message: 'OTP verified',
-        email: User.email,
-        id: User._id,
-        token: token
-      });
+    await User.save();
 
-    } catch (error) {
-      console.log(error);
-      throw new Error('Failed to send email');
-    }
-
+    res.status(200).send({
+      message: 'OTP verified',
+      email: User.email,
+      id: User._id,
+      token: token
+    });    
   } catch (err) {
     console.log(err.message);
   }
