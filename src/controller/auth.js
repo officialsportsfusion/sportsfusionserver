@@ -135,7 +135,7 @@ exports.confirmOTP = async (req, res) => {
       const htmlContent = pugTemplate({ email, username });
 
       let info = await transporter.sendMail({
-        from: "SportsFusion <info@SportsFusion.com>",
+        from: "SportsFusion@sportsfusion.io",
         to: email,
         subject: subject,
         text: null,
@@ -206,7 +206,7 @@ exports.resendOtp = async (req, res) => {
       const htmlContent = pugTemplate({ email, username , otp});
 
       let info = await transporter.sendMail({
-        from: "SportsFusion <info@SportsFusion.com>",
+        from: "SportsFusion@sportsfusion.io",
         to: email,
         subject: subject,
         text: null,
@@ -283,7 +283,7 @@ exports.forgotPassword = async (req, res) => {
       const htmlContent = pugTemplate({ email, username , otp});
 
       let info = await transporter.sendMail({
-        from: "SportsFusion <info@SportsFusion.com>",
+        from: "SportsFusion@sportsfusion.io",
         to: email,
         subject: subject,
         text: null,
