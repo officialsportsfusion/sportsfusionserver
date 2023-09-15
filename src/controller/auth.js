@@ -4,9 +4,7 @@ const jwt = require('jsonwebtoken')
 const EmailService = require("../services/EmailService");
 const cloudinary = require('../utilis/cloudinary')
 const path = require('path');
-const speakeasy = require('speakeasy');
 const pug = require('pug');
-const mailgunTransport = require('nodemailer-mailgun-transport');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config()
 
@@ -326,7 +324,7 @@ exports.signin = async (req, res) =>{
   //   status:'false',
   //   message:' Please verify your account first '
   //  })
-  
+
    //if verification is false then send a mail to the user with link for verfication of
    //account and after that he can login in his acccount
    
