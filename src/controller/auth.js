@@ -36,18 +36,53 @@ exports.signup = async (req, res) =>{
     otp:otp
   })
 
-let Subject = 'OTP Verification'
-
   try {
-    await new EmailService().sendEmail(
-      {
-        email: email.toLowerCase(),
-        subject: Subject,
-        otp:otp
-      });
+    // const { email, username } = User; // Get user's email and username
+    const subject = "Welcome to SportsFusion"; // Set your email subject
+
+    const elasticEmail = {
+      host: process.env.SMTP_HOST,
+      port: 2525,
+      auth: {
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    };
+
+    let transporter = nodemailer.createTransport(elasticEmail);
+    const templatePath = path.join(__dirname, '../../src/utilis/otpTemplate.pug');
+    const pugTemplate = pug.compileFile(templatePath);
+
+    // Render the template with the provided data
+    const htmlContent = pugTemplate({ email, otp });
+
+    let info = await transporter.sendMail({
+      from: "SportsFusion@sportsfusion.io",
+      to: email,
+      subject: subject,
+      text: null,
+      html: htmlContent,
+    });
+
+    
+                              
+
   } catch (error) {
-    throw error
-   }
+    console.log(error);
+    throw new Error('Failed to send email');
+  }
+// let Subject = 'OTP Verification'
+
+  // try {
+  //   await new EmailService().sendEmail(
+  //     {
+  //       email: email.toLowerCase(),
+  //       subject: Subject,
+  //       otp:otp
+  //     });
+  // } catch (error) {
+  //   throw error
+  //  }
 
 
   await newUser.save()

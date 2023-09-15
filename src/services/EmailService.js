@@ -31,6 +31,8 @@ class EmailService {
           // });
           let transporter = nodemailer.createTransport(elasticEmail);
           const templatePath = path.join(__dirname, '../utilis/otptemplate.pug');
+          console.log(templatePath)
+       
           const pugTemplate = pug.compileFile(templatePath);
 
 
