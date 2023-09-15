@@ -36,7 +36,7 @@ exports.signup = async (req, res) =>{
     otp:otp
   })
 
-
+let Subject = 'OTP Verification'
 
   try {
     await new EmailService().sendEmail(
@@ -45,7 +45,9 @@ exports.signup = async (req, res) =>{
         subject: Subject,
         otp:otp
       });
-  } catch (error) { }
+  } catch (error) {
+    throw error
+   }
 
 
   await newUser.save()
