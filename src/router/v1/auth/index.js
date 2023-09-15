@@ -9,6 +9,7 @@ router.post('/confirm/otp', auth.confirmOTP)
 router.post('/resend/otp', auth.resendOtp)
 router.post('/forgot/password', auth.forgotPassword)
 router.post('/change/password', auth.changePassword)
-router.post('/upload/avatar/:userId', upload.single('avatar'), auth.uploadImage)
+
+// router.post('/upload/avatar/:userId', upload.single('avatar'), auth.uploadImage)
 
 module.exports = router
