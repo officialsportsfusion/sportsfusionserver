@@ -1,6 +1,8 @@
 doctype html
 html
   head
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+    script(src="https://kit.fontawesome.com/02f40f3385.js", crossorigin="anonymous")
     title OTP
     style.
       body {
@@ -34,24 +36,23 @@ html
       .footer {
         margin-top: 20px;
         color: #888;
+        text-align: center;
       }
 
   body
     div.container
-      img(src="../assets/logo (1).png", alt="Company Logo", style="display: block; margin:  auto;  ", width='50%')
+      img(src='https://twitter.com/sportsfusionhq/photo' style="width:50%") 
       p Hello #{email},
       p Welcome to the exciting world of SportsFusion! 🎉 We're thrilled to have you onboard. 
       p Your One-Time Password (OTP) is:
       p.otp #{otp}
-      p This OTP is your golden ticket to unlock incredible opportunities and experiences with us
+      p This OTP is your golden ticket to unlock incredible opportunities and experiences with us.
       p Please use this OTP to verify your account.
-      p If you didn't request this OTP, please ignore this email.
-      p.footer Regards,
-      p.footer SportsFusion
-        div(style="text-align: center; margin-top: 20px;")
-        a(href="https://www.facebook.com/your-facebook-page" style="margin-right: 10px;")
-          img(src="facebook-icon.png" alt="Facebook" width="30" height="30")
-        a(href="https://twitter.com/your-twitter-page" style="margin-right: 10px;")
-          img(src="twitter-icon.png" alt="Twitter" width="30" height="30")
-        a(href="https://www.linkedin.com/in/your-linkedin-profile" style="margin-right: 10px;")
-          img(src="linkedin-icon.png" alt="LinkedIn" width="30" height="30")
+      .footer
+        p Regards,
+        p SportsFusion
+        div(style="margin-top: 20px;")
+          a(href="https://t.me/+1rEb93ckA_8zMzJkt.me" style="margin-right: 10px;")
+            i.fab.fa-telegram(style="font-size: 30px; color: #0088cc")
+          a(href="https://twitter.com/sportsfusionhq" style="margin-right: 10px;")
+            i.fab.fa-twitter(style="font-size: 30px; color: #00acee")

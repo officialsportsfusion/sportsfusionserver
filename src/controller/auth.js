@@ -10,13 +10,6 @@ const mailgunTransport = require('nodemailer-mailgun-transport');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config()
 
-const transporter = nodemailer.createTransport(
-  mailgunTransport({
-    auth: {
-      api_key: process.env.MAILGUN_APIKEY,
-      domain: process.env.MAILGUN_DOMAIN
-    }
-  }));
 
 
 exports.signup = async (req, res) =>{
@@ -45,16 +38,7 @@ exports.signup = async (req, res) =>{
     otp:otp
   })
 
- const  Subject = " 🚀 Your Exclusive One-Time Password (OTP) is Here! 🚀"
 
-const emailContent = `
-Welcome to the exciting world of SportsFusion! 🎉 We're thrilled to have you onboard.
-         To kickstart your journey, here's your exclusive One-Time Password (OTP): ${otp}
-         This OTP is your golden ticket to unlock incredible opportunities and experiences with us. It's valid for the next 24 hours, so don't wait—let's get started!
-         
-         `;
-
-         let emailotp = 'wer'
 
   try {
     await new EmailService().sendEmail(
@@ -95,41 +79,41 @@ exports.confirmOTP = async (req, res) => {
       });
     }
 
-    // try {
-    //   const { email, username } = User; // Get user's email and username
-    //   const subject = "Welcome to SportsFusion"; // Set your email subject
+    try {
+      const { email, username } = User; // Get user's email and username
+      const subject = "Welcome to SportsFusion"; // Set your email subject
 
-    //   const elasticEmail = {
-    //     host: process.env.SMTP_HOST,
-    //     port: 2525,
-    //     auth: {
-    //       user: process.env.SMTP_USERNAME,
-    //       pass: process.env.SMTP_PASSWORD,
-    //     },
-    //   };
+      const elasticEmail = {
+        host: process.env.SMTP_HOST,
+        port: 2525,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      };
 
-    //   let transporter = nodemailer.createTransport(elasticEmail);
-    //   const templatePath = path.join(__dirname, '../utilis/welcomeTemplate.pug');
-    //   const pugTemplate = pug.compileFile(templatePath);
+      let transporter = nodemailer.createTransport(elasticEmail);
+      const templatePath = path.join(__dirname, '../utilis/welcomeTemplate.pug');
+      const pugTemplate = pug.compileFile(templatePath);
 
-    //   // Render the template with the provided data
-    //   const htmlContent = pugTemplate({ email, username });
+      // Render the template with the provided data
+      const htmlContent = pugTemplate({ email, username });
 
-    //   let info = await transporter.sendMail({
-    //     from: "SportsFusion <info@SportsFusion.com>",
-    //     to: email,
-    //     subject: subject,
-    //     text: null,
-    //     html: htmlContent,
-    //   });
+      let info = await transporter.sendMail({
+        from: "SportsFusion <info@SportsFusion.com>",
+        to: email,
+        subject: subject,
+        text: null,
+        html: htmlContent,
+      });
 
       
                                 
 
-    // } catch (error) {
-    //   console.log(error);
-    //   throw new Error('Failed to send email');
-    // }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to send email');
+    }
 
     User.verification = true;
 
@@ -168,7 +152,7 @@ exports.resendOtp = async (req, res) => {
 
     try {
       const { email, username, otp } = User; // Get user's email and username
-      const subject = "Change Password"; // Set your email subject
+      const subject = "OTP"; // Set your email subject
 
       const elasticEmail = {
         host: process.env.SMTP_HOST,
@@ -243,51 +227,51 @@ exports.forgotPassword = async (req, res) => {
 
    
 
-    // try {
-    //   const { email, username, otp } = User; // Get user's email and username
-    //   const subject = "Change Password"; // Set your email subject
+    try {
+      const { email, username, otp } = User; // Get user's email and username
+      const subject = "Change Password"; // Set your email subject
 
-    //   const elasticEmail = {
-    //     host: process.env.SMTP_HOST,
-    //     port: 2525,
-    //     auth: {
-    //       user: process.env.SMTP_USERNAME,
-    //       pass: process.env.SMTP_PASSWORD,
-    //     },
-    //   };
+      const elasticEmail = {
+        host: process.env.SMTP_HOST,
+        port: 2525,
+        auth: {
+          user: process.env.SMTP_USERNAME,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      };
 
-    //   let transporter = nodemailer.createTransport(elasticEmail);
-    //   const templatePath = path.join(__dirname, '../utilis/forgotPassword.pug');
-    //   const pugTemplate = pug.compileFile(templatePath);
+      let transporter = nodemailer.createTransport(elasticEmail);
+      const templatePath = path.join(__dirname, '../utilis/forgotPassword.pug');
+      const pugTemplate = pug.compileFile(templatePath);
 
-    //   // Render the template with the provided data
-    //   const htmlContent = pugTemplate({ email, username , otp});
+      // Render the template with the provided data
+      const htmlContent = pugTemplate({ email, username , otp});
 
-    //   let info = await transporter.sendMail({
-    //     from: "SportsFusion <info@SportsFusion.com>",
-    //     to: email,
-    //     subject: subject,
-    //     text: null,
-    //     html: htmlContent,
-    //   });
+      let info = await transporter.sendMail({
+        from: "SportsFusion <info@SportsFusion.com>",
+        to: email,
+        subject: subject,
+        text: null,
+        html: htmlContent,
+      });
 
       
 
     
 
-    //   await User.save();
+      await User.save();
 
-    //   // res.status(200).send({
-    //   //   message: 'OTP verified',
-    //   //   email: User.email,
-    //   //   id: User._id,
-    //   //   token: token
-    //   // });
+      // res.status(200).send({
+      //   message: 'OTP verified',
+      //   email: User.email,
+      //   id: User._id,
+      //   token: token
+      // });
 
-    // } catch (error) {
-    //   console.log(error);
-    //   throw new Error('Failed to send email');
-    // }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to send email');
+    }
 
     await User.save()
     res.status(200).send({
@@ -342,6 +326,7 @@ exports.signin = async (req, res) =>{
   //   status:'false',
   //   message:' Please verify your account first '
   //  })
+  
    //if verification is false then send a mail to the user with link for verfication of
    //account and after that he can login in his acccount
    

@@ -14,13 +14,21 @@ class EmailService {
 
         const elasticEmail = {
             host: process.env.SMTP_HOST,
-            port: 2525,
+            port: 587,
             auth: {
               user: process.env.SMTP_USERNAME,
-              pass: process.env.SMTP_PASSWORD,
+              pass: process.env.SMTP_PASSWORD
             },
           };
     
+          // var transport = nodemailer.createTransport({
+          //   host: "live.smtp.mailtrap.io",
+          //   port: 587,
+          //   auth: {
+          //     user: "api",
+          //     pass: "141296650f045fae9a554592f807841a"
+          //   }
+          // });
           let transporter = nodemailer.createTransport(elasticEmail);
           const templatePath = path.join(__dirname, '../utilis/otptemplate.pug');
           const pugTemplate = pug.compileFile(templatePath);
@@ -31,7 +39,7 @@ class EmailService {
           const htmlContent = pugTemplate({ email, otp });
           try {
             let info = await transporter.sendMail({
-              from: "SportsFusion <info@SportsFusion.com>",
+              from: "sportsfusion@sportsfusion.io",
               to: email,
               subject: subject,
               text: null,
