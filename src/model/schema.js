@@ -231,7 +231,8 @@ const AccaSchema = new mongoose.Schema({
   },
 
   status:{
-    type:Boolean
+    type:Boolean,
+    default:null
   }
 })
 
